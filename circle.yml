@@ -1,0 +1,42 @@
+machine:
+  pre:
+    - mkdir ~/.yarn-cache
+  environment:
+    PATH: $PATH:~/$CIRCLE_PROJECT_REPONAME/node_modules/.bin
+dependencies:
+  override:
+    - yarn install
+    - cd aws-ib-circle && yarn install
+  post:
+
+    - particle login email@algore.website $PARTICLE_PASSWORD
+    - particle list
+    - particle call balance1 allLedsOn blue
+    - particle call balance1 rainbow 4
+  cache_directories:
+    - ~/.yarn-cache
+
+test:
+  pre:
+    - cd button && particle compile photon .
+    - cd button && particle flash  balance1  $(ls  photon_firmware_*  | tail -1)
+    - sleep 15
+  override:
+    - particle list
+    - sleep 5
+    - particle call balance1 rainbow 4
+    - cd aws-ib-circle && serverless decrypt --stage dev --password=$SERVERLESS_ENCRYPTION_PW
+    - cd aws-ib-circle && serverless invoke local -f hello
+
+deployment:
+  dev:
+    branch: serverless
+    commands:
+      - cd aws-ib-circle && serverless deploy --stage dev
+      - particle call balance1 allLedsOff
+      - cd aws-ib-circle && serverless invoke -f hello
+      # Delete any pre-existing webooks.
+      # With stronger bash foo this command could be more elegant.
+      - particle webhook list | grep "Hook ID" | while read line; do echo "$line" | awk -v FS="(Hook ID | is watching for)" '{print $2}' ; done | while read line; do particle webhook delete "$line" ; done
+      # Add the webhook again.
+      - cd aws-ib-circle && particle webhook GET button2 $(serverless info | grep GET | grep ping | egrep -o "http.*") $PARTICLE_DEVICE_ID

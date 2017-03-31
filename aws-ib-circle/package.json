@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "circleci": "^0.3.2",
+    "serverless-secrets-plugin": "^0.0.1"
+  }
+}
