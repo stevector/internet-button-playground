@@ -30,7 +30,8 @@ module.exports.hello = (event, context, callback) => {
       exec("curl https://api.particle.io/v1/devices/" + process.env.PARTICLE_DEVICE_ID + "/circleCi -d arg='"  + par_arg + "' -d access_token=" + process.env.PARTICLE_ACCESS_TOKEN);
   })
   .catch((e) => {
-      // handle errors here
+      // @todo, https://github.com/stevector/internet-button-playground/issues/2
+      // Add error handling.
   });
 
   const response = {
