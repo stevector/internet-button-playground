@@ -1,7 +1,6 @@
 machine:
   node:
     version: 8.2.0
-Dependencies
   pre:
     - mkdir ~/.yarn-cache
   environment:
