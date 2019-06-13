@@ -4,14 +4,14 @@ workflows:
   compile_and_flash:
     jobs:
       - compile
-      - flash:
-          requires:
-            - compile
+      # - flash:
+      #     requires:
+      #       - compile
 
 jobs:
   compile:
     docker:
-      - image: node:10.15.3
+      - image: node:11.9.0
     steps:
       - checkout
       - run: npm ci
@@ -24,23 +24,23 @@ jobs:
       - run: particle login --token $PARTICLE_TOKEN
       - run: particle list
       - run: particle compile photon button --saveTo ib.bin
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  flash:
-    docker:
-      - image: node:10.15.3
-    steps:
-      - attach_workspace:
-          at: .    
-      - run:
-          name: Setup Environment Variables
-          command: |
-            echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
-      - run: npm ci
-      - run: ls -al
-      - run: particle login --token $PARTICLE_TOKEN
+  #     - persist_to_workspace:
+  #         root: .
+  #         paths:
+  #           - .
+  # flash:
+  #   docker:
+  #     - image: node:11.9.0
+  #   steps:
+  #     - attach_workspace:
+  #         at: .    
+  #     - run:
+  #         name: Setup Environment Variables
+  #         command: |
+  #           echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
+  #     - run: npm ci
+  #     - run: ls -al
+  #     - run: particle login --token $PARTICLE_TOKEN
       - run: particle list
       - run: particle call balance2 allLedsOn blue
       - run: particle call balance2 rainbow 4
