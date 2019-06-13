@@ -1,23 +1,14 @@
 const graphqlGot = require('graphql-got');
 const util = require('util');
 
-const query = `{
-    organization(login: "nasa") {
-      name
-      url
-    }
-  }`;
-
-
-const query2 = `
+const query = `
   query {
    
-    search(query: "stevector/stevector-composer", type: REPOSITORY, first: 100) {
+    search(query: "repo:stevector/stevector-composer repo:stevector/nerdologues-d8 repo:stevector/migrate_pantheon", type: REPOSITORY, first: 100) {
       edges {
         node {
          ... on Repository {
-           name,
-           url,
+           nameWithOwner,
            ... RepoStatus
          }
        }
@@ -25,49 +16,23 @@ const query2 = `
     }
 }
 fragment RepoStatus on Repository  {
-  name,
   defaultBranchRef {
-    name,
     target {
       ... on Commit {
-        id,
-        messageBody,
-        author {
-          avatarUrl
-          date
-          email
-          name
-        },
-        ... CommitStatus
+        status {
+            state
+          }
       }
     }
   }
 }
-fragment CommitStatus on Commit {
-  status {
-    state,
-    contexts {
-      ... StatusContextInfo
-    }
-  }
-}
-fragment StatusContextInfo on StatusContext {
-  state,
-  context,
-  createdAt,
-  targetUrl
-}   
   `
   
-graphqlGot('https://api.github.com/graphql', {"query": query2, "token": process.env.GITHUB_TOKEN}).then(response => {
-   // console.log(response.body);
-    console.log(util.inspect(response.body, {showHidden: false, depth: null}))
-	/*
-	{
-		unicorn: {
-			id: 0,
-			name: 'Foo Bar'
-		}
-	}
-	*/
+graphqlGot('https://api.github.com/graphql', {"query": query, "token": process.env.GITHUB_TOKEN}).then(response => {
+    //console.log(util.inspect(response.body.search.edges, {showHidden: false, depth: null}))
+    const simplified = {}
+    response.body.search.edges.forEach(function (edge) {
+        simplified[edge.node.nameWithOwner] = edge.node.defaultBranchRef.target.status.state;
+      });
+      console.table(simplified);
 });
