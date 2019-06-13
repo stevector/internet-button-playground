@@ -5,8 +5,8 @@ workflows:
     jobs:
       - compile
       - flash:
-        requires:
-        - compile
+          requires:
+            - compile
 
 jobs:
   compile:
@@ -25,9 +25,9 @@ jobs:
       - run: particle list
       - run: particle compile photon button --saveTo ib.bin
       - persist_to_workspace:
-        root: .
-        paths:
-        - bash_env.txt
+          root: .
+          paths:
+            - .
   flash:
     docker:
       - image: node:10.15.3
@@ -39,6 +39,7 @@ jobs:
           command: |
             echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
       - run: particle login --token $PARTICLE_TOKEN
+      - run: particle flash balance2 ib.bin
       - run: particle list            
       - run: particle call balance1 allLedsOn blue
       - run: particle call balance1 rainbow 4
