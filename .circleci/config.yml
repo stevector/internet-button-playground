@@ -4,6 +4,9 @@ workflows:
   compile_and_flash:
     jobs:
       - compile
+      - flash:
+        requires:
+        - compile
 
 jobs:
   compile:
@@ -20,5 +23,22 @@ jobs:
             echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
       - run: particle login --token $PARTICLE_TOKEN
       - run: particle list
+      - run: particle compile photon button --saveTo ib.bin
+      - persist_to_workspace:
+        root: .
+        paths:
+        - bash_env.txt
+  flash:
+    docker:
+      - image: node:10.15.3
+    steps:
+      - attach_workspace:
+          at: .    
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
+      - run: particle login --token $PARTICLE_TOKEN
+      - run: particle list            
       - run: particle call balance1 allLedsOn blue
       - run: particle call balance1 rainbow 4
