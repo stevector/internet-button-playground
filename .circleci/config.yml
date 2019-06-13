@@ -39,7 +39,10 @@ jobs:
           command: |
             echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
       - run: particle login --token $PARTICLE_TOKEN
+      - run: particle list
+
+      - run: particle call balance1 allLedsOn blue
+      - run: particle call balance1 rainbow 4
       - run: particle flash balance2 ib.bin
-      - run: particle list            
       - run: particle call balance1 allLedsOn blue
       - run: particle call balance1 rainbow 4
