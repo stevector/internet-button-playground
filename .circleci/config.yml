@@ -18,4 +18,7 @@ jobs:
           name: Setup Environment Variables
           command: |
             echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
-      - run: particle
+      - run: particle login email@algore.website $PARTICLE_PASSWORD
+      - run: particle list
+      - run: particle call balance1 allLedsOn blue
+      - run: particle call balance1 rainbow 4
