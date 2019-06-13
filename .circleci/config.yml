@@ -1,0 +1,14 @@
+
+version: 2.1
+workflows:
+  compile:
+    jobs:
+      - compile
+
+jobs:
+  compile:
+    docker:
+      - image: node:10.15.3
+    steps:
+      - checkout
+      - run: npm ci
