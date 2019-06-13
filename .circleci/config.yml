@@ -12,4 +12,5 @@ jobs:
     steps:
       - checkout
       - run: npm ci
+
       - run: ./node_modules/.bin/particle
