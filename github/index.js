@@ -1,10 +1,33 @@
 const graphqlGot = require('graphql-got');
 const util = require('util');
 
+
+
+
+
+
+
+const repos = [
+    "stevector/nerdologues-d8",
+    "stevector/stevector-composer",
+    "stevector/migrate_pantheon",
+    "pantheon-systems/terminus-build-tools-plugin",
+    "pantheon-systems/circleci-orbs",
+    "pantheon-systems/pantheon_advanced_page_cache",
+    "pantheon-systems/pantheon-advanced-page-cache",
+    "pantheon-systems/example-drops-8-composer",
+    "pantheon-systems/example-wordpress-composer",
+    "pantheon-systems/drops-8",
+    "pantheon-systems/WordPress",
+  ];
+
+  const search_string = repos.map(repoSlug => "repo:" + repoSlug).join(' ');
+  console.log(search_string);
+
 const query = `
-  query {
+query DashboardQuery($searchstring: String!) {
    
-    search(query: "repo:stevector/stevector-composer repo:stevector/nerdologues-d8 repo:stevector/migrate_pantheon", type: REPOSITORY, first: 100) {
+    search(query: $searchstring, type: REPOSITORY, first: 100) {
       edges {
         node {
          ... on Repository {
@@ -28,7 +51,7 @@ fragment RepoStatus on Repository  {
 }
   `
   
-graphqlGot('https://api.github.com/graphql', {"query": query, "token": process.env.GITHUB_TOKEN}).then(response => {
+graphqlGot('https://api.github.com/graphql', {"query": query, variables: {"searchstring": search_string}, "token": process.env.GITHUB_TOKEN}).then(response => {
     //console.log(util.inspect(response.body.search.edges, {showHidden: false, depth: null}))
     const simplified = {}
     response.body.search.edges.forEach(function (edge) {
