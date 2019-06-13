@@ -13,8 +13,9 @@ jobs:
       - checkout
       - run: npm ci
       - run: pwd
-      # - run:
-      #     name: Setup Environment Variables
-      #     command: |
-      #       echo 'export PATH="$GOPATH/bin:$PATH"' >> $BASH_ENV
+      - run: ls /root/project/node_modules/.bin
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
       - run: ./node_modules/.bin/particle
