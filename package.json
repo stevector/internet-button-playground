@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "particle-cli": "^1.20.1",
-    "serverless": "^1.8.0"
+    "particle-cli": "^1.20.1"
   }
 }
