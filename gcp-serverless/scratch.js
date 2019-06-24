@@ -6,9 +6,9 @@ const got = require('got')
 
 
 
-  const makeRequest = async () => {
+  const makeRequest = async (colorList) => {
     //const colorList = 'g,g,r,g,g,g,g,g,g,g,g'
-    const colorList = await getColorCodes()
+    
     const particleURL = "https://api.particle.io/v1/devices/" + config.BALANCE1_ID + "/circleCi"
 
 	try {
@@ -26,6 +26,14 @@ const got = require('got')
 	}
 
   }
-  makeRequest()
 
 
+
+  const runall = async () => {
+
+
+  const colorList = await getColorCodes()
+  makeRequest(colorList);
+
+}
+runall()
