@@ -1,2 +1,31 @@
+'use strict'
+var exec = require('child_process').exec
+const config = require('./config.json')
 const getColorCodes = require('./getColorCodes')
-console.log(getColorCodes())
+const got = require('got')
+
+
+
+  const makeRequest = async () => {
+    //const colorList = 'g,g,r,g,g,g,g,g,g,g,g'
+    const colorList = await getColorCodes()
+    const particleURL = "https://api.particle.io/v1/devices/" + config.BALANCE1_ID + "/circleCi"
+
+	try {
+        const response = await got.post(particleURL,{
+            form: true,
+            body: {
+              "arg": colorList,
+              "access_token": config.PARTICLE_TOKEN
+            }
+          })
+          console.log(response.body);
+	
+	} catch (error) {
+		console.log(error.response.body)
+	}
+
+  }
+  makeRequest()
+
+
