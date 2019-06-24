@@ -1,5 +1,6 @@
 'use strict'
 
+const config = require('./config.json')
 const graphqlGot = require('graphql-got')
 // const util = require('util');
 
@@ -17,8 +18,8 @@ const repos = [
   'pantheon-systems/WordPress'
 ]
 
-const search_string = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
-// console.log(search_string);
+const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
+// console.log(searchString);
 
 const query = `
 query DashboardQuery($searchstring: String!) {
@@ -46,12 +47,12 @@ fragment RepoStatus on Repository  {
 }
   `
 
-exports.http = (request, response) => {
-  graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': search_string }, 'token': process.env.GITHUB_TOKEN }).then(githubResponse => {
+exports.callparticle = (request, response) => {
+  graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': config.GITHUB_TOKEN }).then(githubResponse => {
     // console.log(util.inspect(response.body.search.edges, {showHidden: false, depth: null}))
     const simplifiedRepoStatuses = {}
     const sortedRepoStatuses = {}
-    const sorted_colorCodes = []
+    const sortedColorCodes = []
     githubResponse.body.search.edges.forEach(function (edge) {
       simplifiedRepoStatuses[edge.node.nameWithOwner] = edge.node.defaultBranchRef.target.status.state
     })
@@ -62,21 +63,18 @@ exports.http = (request, response) => {
       var status = simplifiedRepoStatuses[repo]
       // console.log(status)
       sortedRepoStatuses[repo] = status
+      var colorCode = 'w'
       if (status === 'SUCCESS') {
-        var colorCode = 'g'
+        colorCode = 'g'
       } else if (status === 'FAILURE') {
-        var colorCode = 'r'
+        colorCode = 'r'
       }
-      // white as fallback.
-      else {
-        var colorCode = 'w'
-      }
-      sorted_colorCodes.push(colorCode)
+      sortedColorCodes.push(colorCode)
     })
 
-    const colorList = sorted_colorCodes.join(',')
+    const colorList = sortedColorCodes.join(',')
     // conso le.table(sortedRepoStatuses);
-    // console.table(sorted_colorCodes);
+    // console.table(sortedColorCodes);
     response.status(200).send(colorList)
   })
 }
