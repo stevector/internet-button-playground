@@ -1,3 +1,2 @@
-const getColorCodes = require('./getColorCodes');
-
+const getColorCodes = require('./getColorCodes')
 console.log(getColorCodes())
