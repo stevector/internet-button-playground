@@ -14,7 +14,7 @@ const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
 
 
 
-exports.callparticle = (request, response) => {
+
   graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': config.GITHUB_TOKEN }).then(githubResponse => {
     // console.log(util.inspect(response.body.search.edges, {showHidden: false, depth: null}))
     const simplifiedRepoStatuses = {}
@@ -40,21 +40,13 @@ exports.callparticle = (request, response) => {
     })
 
     const colorList = sortedColorCodes.join(',')
-    // conso le.table(sortedRepoStatuses);
-    // console.table(sortedColorCodes);
-    // exec();
+    console.table(sortedRepoStatuses);
+    console.table(sortedColorCodes);
+    console.log(colorList);
 
-    exec('curl https://api.particle.io/v1/devices/' + config.BALANCE1_ID + "/circleCi -d arg='" + colorList + "' -d access_token=" + config.PARTICLE_TOKEN)
-    // got.post("https://api.particle.io/v1/devices/" + config.BALANCE1_ID + "/circleCi",{
-    //   body: {
-    //     arg: colorList,
-    //     access_token: config.PARTICLE_TOKEN
-    //   }
-    // })
-    response.status(200).send(colorList)
+
+    
+    
   })
-}
 
-exports.event = (event, callback) => {
-  callback()
-}
+
