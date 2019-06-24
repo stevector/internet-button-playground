@@ -1,7 +1,10 @@
 'use strict'
 
+// const { exec } = require('child_process');
+var exec = require('child_process').exec
 const config = require('./config.json')
 const graphqlGot = require('graphql-got')
+const got = require('got')
 // const util = require('util');
 
 const repos = [
@@ -75,6 +78,25 @@ exports.callparticle = (request, response) => {
     const colorList = sortedColorCodes.join(',')
     // conso le.table(sortedRepoStatuses);
     // console.table(sortedColorCodes);
+    //exec();
+
+    exec("curl https://api.particle.io/v1/devices/" + config.BALANCE1_ID + "/circleCi -d arg='"  + colorList + "' -d access_token=" + config.PARTICLE_TOKEN);
+
+
+      
+      // got.post("https://api.particle.io/v1/devices/" + config.BALANCE1_ID + "/circleCi",{
+      //   body: {
+      //     arg: colorList,
+      //     access_token: config.PARTICLE_TOKEN
+      //   }
+      // })
+      
+      
+
+
+
+
+
     response.status(200).send(colorList)
   })
 }
