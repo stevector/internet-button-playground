@@ -5,22 +5,14 @@ var exec = require('child_process').exec
 const config = require('./config.json')
 const graphqlGot = require('graphql-got')
 const query = require('./query.js')
-// const got = require('got')
 // const util = require('util');
 const repos = require('./repos.js')
 
 const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
 // console.log(searchString);
 
-
-//const getJSON = 
-
-
-
 module.exports = async () => {
-
-
-  graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': config.GITHUB_TOKEN }).then(githubResponse => {
+  const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': config.GITHUB_TOKEN });
     // console.log(util.inspect(response.body.search.edges, {showHidden: false, depth: null}))
     const simplifiedRepoStatuses = {}
     const sortedRepoStatuses = {}
@@ -43,15 +35,9 @@ module.exports = async () => {
       }
       sortedColorCodes.push(colorCode)
     })
-
     const colorList = sortedColorCodes.join(',')
-    console.table(sortedRepoStatuses);
-    console.table(sortedColorCodes);
-    console.log(colorList);
-
-
-    
-    
-  })
+    //console.table(sortedRepoStatuses);
+    //console.table(sortedColorCodes);
+    //console.log(colorList);
   return colorList;
 }
