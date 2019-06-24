@@ -4,51 +4,15 @@
 var exec = require('child_process').exec
 const config = require('./config.json')
 const graphqlGot = require('graphql-got')
+const query = require('./query.js')
 // const got = require('got')
 // const util = require('util');
-
-const repos = [
-  'stevector/nerdologues-d8',
-  'stevector/stevector-composer',
-  'stevector/migrate_pantheon',
-  'pantheon-systems/terminus-build-tools-plugin',
-  'pantheon-systems/circleci-orb',
-  'pantheon-systems/pantheon_advanced_page_cache',
-  'pantheon-systems/pantheon-advanced-page-cache',
-  'pantheon-systems/example-drops-8-composer',
-  'pantheon-systems/example-wordpress-composer',
-  'pantheon-systems/drops-8',
-  'pantheon-systems/WordPress'
-]
+const repos = require('./repos.js')
 
 const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
 // console.log(searchString);
 
-const query = `
-query DashboardQuery($searchstring: String!) {
-    search(query: $searchstring, type: REPOSITORY, first: 100) {
-      edges {
-        node {
-         ... on Repository {
-           nameWithOwner,
-           ... RepoStatus
-         }
-       }
-      }
-    }
-}
-fragment RepoStatus on Repository  {
-  defaultBranchRef {
-    target {
-      ... on Commit {
-        status {
-            state
-          }
-      }
-    }
-  }
-}
-  `
+
 
 exports.callparticle = (request, response) => {
   graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': config.GITHUB_TOKEN }).then(githubResponse => {
