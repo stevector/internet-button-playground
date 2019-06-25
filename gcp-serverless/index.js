@@ -23,6 +23,7 @@ const callParticleApi = async (deviceId, colorList) => {
 }
 
 exports.callparticle = (request, response) => {
+  // @todo, does this var need to be escaped?
   const deviceId = request.query.coreid
   const makeRequest = async () => {
     const colorList = await getColorCodes()
