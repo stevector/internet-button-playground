@@ -3,10 +3,10 @@ const config = require('./config.json')
 const getColorCodes = require('./getColorCodes')
 const got = require('got')
 
-const callParticleApi = async (colorList) => {
+const callParticleApi = async (deviceId, colorList) => {
   // const colorList = 'g,g,r,g,g,g,g,g,g,g,g'
   // const colorList = await getColorCodes()
-  const particleURL = 'https://api.particle.io/v1/devices/' + config.BALANCE1_ID + '/circleCi'
+  const particleURL = 'https://api.particle.io/v1/devices/' + deviceId + '/circleCi'
 
   try {
     const response = await got.post(particleURL, {
@@ -23,9 +23,10 @@ const callParticleApi = async (colorList) => {
 }
 
 exports.callparticle = (request, response) => {
+  const deviceId = request.query.coreid
   const makeRequest = async () => {
     const colorList = await getColorCodes()
-    await callParticleApi(colorList)
+    await callParticleApi(deviceId, colorList)
     response.status(200).send(colorList)
   }
   makeRequest()

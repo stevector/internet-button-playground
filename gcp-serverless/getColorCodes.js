@@ -33,7 +33,7 @@ module.exports = async () => {
     }
     sortedColorCodes.push(colorCode)
   })
-  const colorList = sortedColorCodes.join(',')
+  const colorList = sortedColorCodes.join(',') + ','
   // console.table(sortedRepoStatuses)
   // console.table(sortedColorCodes)
   // console.log(colorList)
