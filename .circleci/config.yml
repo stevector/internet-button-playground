@@ -3,6 +3,7 @@ version: 2.1
 workflows:
   compile_and_flash:
     jobs:
+      - unit_tests
       - compile
       # - flash:
       #     requires:
