@@ -9,9 +9,9 @@
     "cs-fix": "standard --fix"
 
   },
-    "standard": {
-      "globals": [ "it", "expect" ]
-    },
+  "standard": {
+    "globals": [ "it", "expect" ]
+  },
   "author": "serverless.com",
   "license": "MIT",
   "devDependencies": {

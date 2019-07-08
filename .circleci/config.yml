@@ -9,6 +9,15 @@ workflows:
       #       - compile
 
 jobs:
+  unit_tests:
+    docker:
+      - image: node:11.9.0
+    steps:
+      - checkout
+      - run: cd gcp-serverless && npm ci
+      - run: cd gcp-serverless && npm run standard
+      - run: cd gcp-serverless && npm run standard
+
   compile:
     docker:
       - image: node:11.9.0
