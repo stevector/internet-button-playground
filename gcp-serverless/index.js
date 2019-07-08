@@ -1,7 +1,7 @@
 'use strict'
 const config = require('./config.json')
 const getColorCodes = require('./getColorCodes')
-const callParticleApi = require('./callParticleApi');
+const callParticleApi = require('./callParticleApi')
 
 exports.callparticle = (request, response) => {
   // @todo, does this var need to be escaped?

@@ -16,7 +16,7 @@ module.exports = async () => {
   const sortedRepoStatuses = {}
   const sortedColorCodes = []
 
-// console.log(githubResponse);
+  // console.log(githubResponse);
 
   githubResponse.body.search.edges.forEach(function (edge) {
     simplifiedRepoStatuses[edge.node.nameWithOwner] = edge.node.defaultBranchRef.target.status.state
