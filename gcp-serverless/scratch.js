@@ -1,5 +1,4 @@
 'use strict'
-const config = require('./config.json')
 const getColorCodes = require('./getColorCodes')
 
 const makeRequest = async () => {
