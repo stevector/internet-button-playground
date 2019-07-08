@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "standard": "standard"
+    "standard": "standard",
+    "cs-fix": "standard --fix"
+
   },
   "author": "serverless.com",
   "license": "MIT",
