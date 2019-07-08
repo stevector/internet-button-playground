@@ -17,7 +17,7 @@ jobs:
       - checkout
       - run: cd gcp-serverless && npm ci
       - run: cd gcp-serverless && npm run standard
-      - run: cd gcp-serverless && npm run standard
+      - run: cd gcp-serverless && npm test
 
   compile:
     docker:
