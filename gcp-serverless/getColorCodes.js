@@ -8,12 +8,13 @@ const config = require('./config.json')
 
 const getGitHubResponse = async (searchString, githubToken) => {
   const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
+  console.log(JSON.stringify(githubResponse.body) )
   return githubResponse
 }
 
-const simplifyRepoStatus = (githubResponse) => {
+const simplifyRepoStatuses = (githubResponseBody) => {
   const simplifiedRepoStatuses = {}
-  githubResponse.body.search.edges.forEach(function (edge) {
+  githubResponseBody.search.edges.forEach(function (edge) {
     simplifiedRepoStatuses[edge.node.nameWithOwner] = edge.node.defaultBranchRef.target.status.state
   })
   return simplifiedRepoStatuses
@@ -45,8 +46,8 @@ const getColorCodes = async () => {
   const githubResponse = await getGitHubResponse(searchString, githubToken)
   // The response from GitHub is deeply nested. Boil down
   // to key/values.
-  const simplifiedRepoStatuses = simplifyRepoStatus(githubResponse)
+  const simplifiedRepoStatuses = simplifyRepoStatuses(githubResponse.body)
   return convertStatusesToColorList(simplifiedRepoStatuses)
 }
-
+module.exports.simplifyRepoStatuses = simplifyRepoStatuses
 module.exports.getColorCodes = getColorCodes
