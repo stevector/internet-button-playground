@@ -8,7 +8,6 @@ const config = require('./config.json')
 
 // console.log(searchString);
 
-
 const getGitHubResponse = async (searchString, githubToken) => {
   const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
   return githubResponse
@@ -19,7 +18,7 @@ const simplifyRepoStatus = (githubResponse) => {
   githubResponse.body.search.edges.forEach(function (edge) {
     simplifiedRepoStatuses[edge.node.nameWithOwner] = edge.node.defaultBranchRef.target.status.state
   })
-  return simplifiedRepoStatuses;
+  return simplifiedRepoStatuses
 }
 
 const convertStatusesToColorList = (simplifiedRepoStatuses) => {
@@ -41,7 +40,6 @@ const convertStatusesToColorList = (simplifiedRepoStatuses) => {
   const colorList = sortedColorCodes.join(',') + ','
   return colorList
 }
-
 
 module.exports = async () => {
   const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
