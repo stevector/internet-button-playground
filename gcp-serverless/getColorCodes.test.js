@@ -1,4 +1,4 @@
-const getColorCodes = require('./getColorCodes')
+const { getColorCodes } = require('./getColorCodes')
 
 // async/await can be used.
 it('works with async/await', async () => {

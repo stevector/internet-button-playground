@@ -1,6 +1,6 @@
 'use strict'
 const config = require('./config.json')
-const getColorCodes = require('./getColorCodes')
+const { getColorCodes } = require('./getColorCodes')
 const callParticleApi = require('./callParticleApi')
 
 exports.callparticle = (request, response) => {

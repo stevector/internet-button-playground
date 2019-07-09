@@ -6,8 +6,6 @@ const query = require('./query.js')
 const repos = require('./repos.js')
 const config = require('./config.json')
 
-// console.log(searchString);
-
 const getGitHubResponse = async (searchString, githubToken) => {
   const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
   return githubResponse
@@ -41,7 +39,7 @@ const convertStatusesToColorList = (simplifiedRepoStatuses) => {
   return colorList
 }
 
-module.exports = async () => {
+const getColorCodes = async () => {
   const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
   const githubToken = config.GITHUB_TOKEN
   const githubResponse = await getGitHubResponse(searchString, githubToken)
@@ -50,3 +48,5 @@ module.exports = async () => {
   const simplifiedRepoStatuses = simplifyRepoStatus(githubResponse)
   return convertStatusesToColorList(simplifiedRepoStatuses)
 }
+
+module.exports.getColorCodes = getColorCodes
