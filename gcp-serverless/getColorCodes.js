@@ -49,5 +49,6 @@ const getColorCodes = async () => {
   const simplifiedRepoStatuses = simplifyRepoStatuses(githubResponse.body)
   return convertStatusesToColorList(simplifiedRepoStatuses, repos)
 }
+module.exports.convertStatusesToColorList = convertStatusesToColorList
 module.exports.simplifyRepoStatuses = simplifyRepoStatuses
 module.exports.getColorCodes = getColorCodes
