@@ -20,7 +20,7 @@ const simplifyRepoStatuses = (githubResponseBody) => {
   return simplifiedRepoStatuses
 }
 
-const convertStatusesToColorList = (simplifiedRepoStatuses) => {
+const convertStatusesToColorList = (simplifiedRepoStatuses, repos) => {
   const sortedRepoStatuses = {}
   const sortedColorCodes = []
   repos.forEach(function (repo) {
@@ -47,7 +47,7 @@ const getColorCodes = async () => {
   // The response from GitHub is deeply nested. Boil down
   // to key/values.
   const simplifiedRepoStatuses = simplifyRepoStatuses(githubResponse.body)
-  return convertStatusesToColorList(simplifiedRepoStatuses)
+  return convertStatusesToColorList(simplifiedRepoStatuses, repos)
 }
 module.exports.simplifyRepoStatuses = simplifyRepoStatuses
 module.exports.getColorCodes = getColorCodes
