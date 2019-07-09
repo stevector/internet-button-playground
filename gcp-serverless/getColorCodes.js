@@ -40,9 +40,8 @@ const convertStatusesToColorList = (simplifiedRepoStatuses, repos) => {
   return colorList
 }
 
-const getColorCodes = async () => {
+const getColorCodes = async (githubToken) => {
   const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
-  const githubToken = config.GITHUB_TOKEN
   const githubResponse = await getGitHubResponse(searchString, githubToken)
   // The response from GitHub is deeply nested. Boil down
   // to key/values.

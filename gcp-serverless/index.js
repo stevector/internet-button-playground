@@ -8,7 +8,7 @@ exports.callparticle = (request, response) => {
   const deviceId = request.query.coreid
   const particleToken = config.PARTICLE_TOKEN
   const makeRequest = async () => {
-    const colorList = await getColorCodes()
+    const colorList = await getColorCodes(config.GITHUB_TOKEN)
     await callParticleApi(particleToken, deviceId, colorList)
     response.status(200).send(colorList)
   }
