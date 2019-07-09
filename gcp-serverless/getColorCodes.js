@@ -4,7 +4,6 @@ const graphqlGot = require('graphql-got')
 const query = require('./query.js')
 // const util = require('util')
 const repos = require('./repos.js')
-const config = require('./config.json')
 
 const getGitHubResponse = async (searchString, githubToken) => {
   const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
