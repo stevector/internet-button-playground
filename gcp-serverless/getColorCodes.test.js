@@ -4,5 +4,5 @@ const getColorCodes = require('./getColorCodes')
 it('works with async/await', async () => {
   expect.assertions(1)
   const colorCodes = await getColorCodes()
-  expect(colorCodes).toBe('g,g,r,g,g,g,g,g,g,g,g,')
+  expect(colorCodes).toBe('g,g,r,g,g,g,g,g,r,g,g,')
 })

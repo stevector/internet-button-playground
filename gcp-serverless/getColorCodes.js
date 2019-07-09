@@ -1,28 +1,30 @@
 'use strict'
 
-const config = require('./config.json')
 const graphqlGot = require('graphql-got')
 const query = require('./query.js')
 // const util = require('util')
 const repos = require('./repos.js')
+const config = require('./config.json')
 
-const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
 // console.log(searchString);
 
-module.exports = async () => {
-  const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': config.GITHUB_TOKEN })
-  // console.log(util.inspect(response.body.search.edges, {showHidden: false, depth: null}))
+
+const getGitHubResponse = async (searchString, githubToken) => {
+  const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
+  return githubResponse
+}
+
+const simplifyRepoStatus = (githubResponse) => {
   const simplifiedRepoStatuses = {}
-  const sortedRepoStatuses = {}
-  const sortedColorCodes = []
-
-  // console.log(githubResponse);
-
   githubResponse.body.search.edges.forEach(function (edge) {
     simplifiedRepoStatuses[edge.node.nameWithOwner] = edge.node.defaultBranchRef.target.status.state
   })
-  // console.table(simplifiedRepoStatuses);
+  return simplifiedRepoStatuses;
+}
 
+const convertStatusesToColorList = (simplifiedRepoStatuses) => {
+  const sortedRepoStatuses = {}
+  const sortedColorCodes = []
   repos.forEach(function (repo) {
     // console.log(repo)
     var status = simplifiedRepoStatuses[repo]
@@ -37,8 +39,16 @@ module.exports = async () => {
     sortedColorCodes.push(colorCode)
   })
   const colorList = sortedColorCodes.join(',') + ','
-  // console.table(sortedRepoStatuses)
-  // console.table(sortedColorCodes)
-  // console.log(colorList)
   return colorList
+}
+
+
+module.exports = async () => {
+  const searchString = repos.map(repoSlug => 'repo:' + repoSlug).join(' ')
+  const githubToken = config.GITHUB_TOKEN
+  const githubResponse = await getGitHubResponse(searchString, githubToken)
+  // The response from GitHub is deeply nested. Boil down
+  // to key/values.
+  const simplifiedRepoStatuses = simplifyRepoStatus(githubResponse)
+  return convertStatusesToColorList(simplifiedRepoStatuses)
 }
