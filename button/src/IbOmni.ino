@@ -262,30 +262,26 @@ int ledAllOnRemote(String command){
 // with special cases for "red" ... green,blue,white
 int circleCiRemote(String command){
 
-int x = 0;
+    char inputStr[command.length()];
+    command.toCharArray(inputStr,command.length());
 
-    char inputStr[30];
-    command.toCharArray(inputStr,30);
     char *p = strtok(inputStr,",");
-    x = atoi(p);
 
-
-for(int i = 1; i <= 11; i++){
-
-    p = strtok(NULL,",");
-    if(String(p).equals("r")){
-        b.ledOn(i,15,0,0);
+    for(int i = 1; i <= 11; i++){
+        if(String(p).equals("r")){
+            b.ledOn(i,15,0,0);
+        }
+        else if(String(p).equals("g")){
+            b.ledOn(i,0,15,0);
+        }
+        else if(String(p).equals("w")){
+            b.ledOn(i,15,15,15);
+        }
+        else if(String(p).equals("b")){
+            b.ledOn(i,0,0,15);
+        }
+        p = strtok(NULL,",");
     }
-    else if(String(p).equals("g")){
-        b.ledOn(i,0,15,0);
-    }
-
-}
-
-
-
-
-
 
     return 1;
 }

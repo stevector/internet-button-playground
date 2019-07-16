@@ -1,5 +1,6 @@
 /button/photon_firmware_*
 /node_modules/
+/github/node_modules/
 /aws-ib-circle/node_modules/
 /aws-ib-circle/.serverless
 /aws-ib-circle/secrets.*.yml

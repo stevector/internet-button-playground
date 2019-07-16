@@ -3,14 +3,63 @@ version: 2.1
 workflows:
   compile_and_flash:
     jobs:
-      - compile
+      - unit_tests
+      - compile:
+          filters:
+            branches:
+              only: /^compile-*/
+            tags:
+              only: /^v.*/
+      # - flash:
+      #     requires:
+      #       - compile
 
 jobs:
+  unit_tests:
+    docker:
+      - image: node:11.9.0
+    steps:
+      - checkout
+      - run: cd gcp-serverless && npm ci
+      - run: cd gcp-serverless && npm run standard
+      - run: cd gcp-serverless && npm test
+
   compile:
     docker:
-      - image: node:10.15.3
+      - image: node:11.9.0
     steps:
       - checkout
       - run: npm ci
-
-      - run: ./node_modules/.bin/particle
+      - run: pwd
+      - run: ls /root/project/node_modules/.bin
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
+      - run: particle login --token $PARTICLE_TOKEN
+      - run: particle list
+      - run: particle compile photon button --saveTo ib.bin
+  #     - persist_to_workspace:
+  #         root: .
+  #         paths:
+  #           - .
+  # flash:
+  #   docker:
+  #     - image: node:11.9.0
+  #   steps:
+  #     - attach_workspace:
+  #         at: .    
+  #     - run:
+  #         name: Setup Environment Variables
+  #         command: |
+  #           echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
+  #     - run: npm ci
+  #     - run: ls -al
+  #     - run: particle login --token $PARTICLE_TOKEN
+      - run: particle list
+      - run: particle call balance2 allLedsOn blue
+      - run: particle call balance2 rainbow 4
+      - run: particle flash balance2 ib.bin
+      - run: sleep 15
+      - run: particle call balance2 allLedsOn blue
+      - run: particle call balance2 rainbow 4
