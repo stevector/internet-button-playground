@@ -4,7 +4,10 @@ workflows:
   compile_and_flash:
     jobs:
       - unit_tests
-      - compile
+      - compile:
+          filters:
+            tags:
+              only: /^v.*/
       # - flash:
       #     requires:
       #       - compile
