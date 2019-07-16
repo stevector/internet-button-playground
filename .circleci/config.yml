@@ -6,6 +6,8 @@ workflows:
       - unit_tests
       - compile:
           filters:
+            branches:
+              only: /^compile-*/
             tags:
               only: /^v.*/
       # - flash:
