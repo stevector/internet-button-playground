@@ -3,12 +3,22 @@ version: 2.1
 workflows:
   compile_and_flash:
     jobs:
+      - unit_tests
       - compile
       # - flash:
       #     requires:
       #       - compile
 
 jobs:
+  unit_tests:
+    docker:
+      - image: node:11.9.0
+    steps:
+      - checkout
+      - run: cd gcp-serverless && npm ci
+      - run: cd gcp-serverless && npm run standard
+      - run: cd gcp-serverless && npm test
+
   compile:
     docker:
       - image: node:11.9.0
