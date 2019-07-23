@@ -1,9 +1,33 @@
 'use strict'
 
 const graphqlGot = require('graphql-got')
-const query = require('./query.js')
 // const util = require('util')
 const repos = require('./repos.js')
+
+const query = `
+query DashboardQuery($searchstring: String!) {
+    search(query: $searchstring, type: REPOSITORY, first: 100) {
+      edges {
+        node {
+         ... on Repository {
+           nameWithOwner,
+           ... RepoStatus
+         }
+       }
+      }
+    }
+}
+fragment RepoStatus on Repository  {
+  defaultBranchRef {
+    target {
+      ... on Commit {
+        status {
+            state
+          }
+      }
+    }
+  }
+}`
 
 const getGitHubResponse = async (searchString, githubToken) => {
   const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
