@@ -286,8 +286,6 @@ int circleCiRemote(String command){
     return 1;
 }
 
-
-
 // Turn all the LEDs off!
 int ledAllOffRemote(String command){
     b.allLedsOff();
