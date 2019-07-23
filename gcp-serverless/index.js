@@ -4,15 +4,13 @@ const { getColorCodes } = require('./getColorCodes')
 const callParticleApi = require('./callParticleApi')
 
 exports.callparticle = (request, response) => {
-  // @todo, does this var need to be escaped?
-  
-
   const makeRequest = async () => {
     const colorList = await getColorCodes(config.GITHUB_TOKEN)
     const configObject = {
-      "colorList": colorList,
-      "deviceId": request.query.coreid,
-      "particleToken": config.PARTICLE_TOKEN     
+      'colorList': colorList,
+      // @todo, does this var need to be escaped?
+      'deviceId': request.query.coreid,
+      'particleToken': config.PARTICLE_TOKEN
     }
 
     await callParticleApi(configObject)
