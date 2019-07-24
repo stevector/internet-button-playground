@@ -7,12 +7,19 @@ workflows:
       - compile:
           filters:
             branches:
-              only: /compile-*/
+              only:
+                - /compile-.*/
             tags:
               only: /^v.*/
       - flash:
           requires:
             - compile
+          filters:
+            branches:
+              only:
+                - /compile-.*/
+            tags:
+              only: /^v.*/
 
 jobs:
   unit_tests:
