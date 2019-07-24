@@ -10,9 +10,9 @@ workflows:
               only: /^compile-*/
             tags:
               only: /^v.*/
-      # - flash:
-      #     requires:
-      #       - compile
+      - flash:
+          requires:
+            - compile
 
 jobs:
   unit_tests:
