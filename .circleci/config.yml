@@ -7,7 +7,7 @@ workflows:
       - compile:
           filters:
             branches:
-              only: /^compile-*/
+              only: /compile-*/
             tags:
               only: /^v.*/
       - flash:
