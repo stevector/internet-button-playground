@@ -23,7 +23,6 @@ module.exports = async (configObject) => {
   } catch (error) {
     // Sample value
     // {"ok":false,"error":"timed out"}
-    console.log(response.body)
     console.log(error.response.body)
     return false
   }
