@@ -31,7 +31,7 @@ fragment RepoStatus on Repository  {
 
 const getGitHubResponse = async (searchString, githubToken) => {
   const githubResponse = await graphqlGot('https://api.github.com/graphql', { 'query': query, variables: { 'searchstring': searchString }, 'token': githubToken })
-  console.log(JSON.stringify(githubResponse.body))
+  // console.log(JSON.stringify(githubResponse.body))
   return githubResponse
 }
 

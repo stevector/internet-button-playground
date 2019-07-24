@@ -15,8 +15,16 @@ module.exports = async (configObject) => {
         access_token: particleToken
       }
     })
+
+    // Sample value
+    // {"id":"500031000c51353432383931","last_app":"","connected":true,"return_value":1}
     console.log(response.body)
+    return true
   } catch (error) {
+    // Sample value
+    // {"ok":false,"error":"timed out"}
+    console.log(response.body)
     console.log(error.response.body)
+    return false
   }
 }
