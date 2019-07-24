@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "standard": "standard",
-    "cs-fix": "standard --fix"
-
+    "cs-fix": "standard --fix",
+    "local-check": "node -e 'require(\"./index\").makeRequest(process.env.PARTICLE_DEVICE_ID)'"
   },
   "standard": {
     "globals": [ "it", "expect" ]

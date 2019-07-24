@@ -3,16 +3,28 @@ const config = require('./config.json')
 const { getColorCodes } = require('./getColorCodes')
 const callParticleApi = require('./callParticleApi')
 
-exports.callparticle = (request, response) => {
-  // @todo, does this var need to be escaped?
-  const deviceId = request.query.coreid
-  const particleToken = config.PARTICLE_TOKEN
-  const makeRequest = async () => {
-    const colorList = await getColorCodes(config.GITHUB_TOKEN)
-    await callParticleApi(particleToken, deviceId, colorList)
-    response.status(200).send(colorList)
+const makeRequest = async (coreid) => {
+  const colorList = await getColorCodes(config.GITHUB_TOKEN)
+
+  const configObject = {
+    'colorList': colorList,
+    // @todo, does this var need to be escaped?
+    'deviceId': coreid,
+    'particleToken': config.PARTICLE_TOKEN
   }
-  makeRequest()
+  return callParticleApi(configObject)
+}
+
+exports.makeRequest = makeRequest
+
+exports.callparticle = async (request, response) => {
+  const coreid = request.query.coreid
+  const returnVal = await makeRequest(coreid, response)
+  if (returnVal) {
+    response.status(200).send('success')
+  } else {
+    response.status(500).send('fail')
+  }
 }
 
 exports.event = (event, callback) => {
