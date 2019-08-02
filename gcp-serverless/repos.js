@@ -11,5 +11,5 @@ module.exports = [
   'stevector/nerdologues-d8',
   'stevector/stevector-composer',
   'stevector/wordpress-orb-demo',
-  'stevector/pantheon-orbs',
+  'stevector/pantheon-orbs'
 ]
