@@ -27,9 +27,9 @@ jobs:
       - image: node:11.9.0
     steps:
       - checkout
-      - run: cd gcp-serverless && npm ci
-      - run: cd gcp-serverless && npm run standard
-      - run: cd gcp-serverless && npm test
+      - run: cd gcp-serverless/ci-status-reporter && npm ci
+      - run: cd gcp-serverless/ci-status-reporter && npm run standard
+      - run: cd gcp-serverless/ci-status-reporter && npm test
 
   compile:
     docker:
@@ -61,7 +61,6 @@ jobs:
           command: |
             echo 'export PATH="/root/project/node_modules/.bin:$PATH"' >> $BASH_ENV
       - run: npm ci
-      - run: ls -al
       - run: particle login --token $PARTICLE_TOKEN
       - run: particle list
       - run: particle call balance2 allLedsOn blue
