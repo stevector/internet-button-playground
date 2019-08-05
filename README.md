@@ -8,7 +8,7 @@ This repository is structure to hold multiple project that can switched between 
 
 ### Five Thirty Eight Election Odds Displayer:
 
-This project from 2016 illuminated the LEDs at random. Each time an LED turned on it had a variable percentage change of being blue or red.
+This project from 2016 illuminated the LEDs at random. Each time an LED turned on it had a variable percentage chance of being blue or red.
 
 ![Gif of internet button illuminating LEDs in sequence in blue or red.](https://raw.githubusercontent.com/stevector/internet-button-playground/e3140c7b876f8c8ea715441e7e397741c05e7603/documentation/images/538.gif)
 
