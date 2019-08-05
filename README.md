@@ -6,6 +6,16 @@ The repository contains code used to create [Internet Button](https://store.part
 
 This repository is structure to hold multiple project that can switched between buttons.
 
+### Five Thirty Eight Election Odds Displayer:
+
+This project from 2016 illuminated the LEDs at random. Each time an LED turned on it had a variable percentage chance of being blue or red.
+
+![Gif of internet button illuminating LEDs in sequence in blue or red.](https://raw.githubusercontent.com/stevector/internet-button-playground/e3140c7b876f8c8ea715441e7e397741c05e7603/documentation/images/538.gif)
+
+Watch this [YouTube Video](https://www.youtube.com/watch?v=ujS55u_myBg) from [@fauxalgore](https://github.com/fauxalgore) for a full explanation.
+
+The source code used in this video is in `button_fte`.
+
 ### GitHub Status Reporter
 
 This project displays the commit statuses of the default branch of a set of repos.
