@@ -257,9 +257,9 @@ int ledAllOnRemote(String command){
     return 1;
 }
 
-// Turn all the LEDs on!
-// Format is "RED_INT,GREEN_INT,BLUE_INT"
-// with special cases for "red" ... green,blue,white
+// Turn on all the lights.
+// Format is g,r,w,b,g,g,g,g,g,g,g,
+// Include the trailing comma
 int circleCiRemote(String command){
 
     char inputStr[command.length()];
