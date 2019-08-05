@@ -20,7 +20,7 @@ It only takes one or two seconds but a lot happens in that time. There are six m
 
 #### 1. The button sends an event to the Particle Cloud
 
-The firmware in the `button` directory publishes many events to the Particle Cloud. This event, [the pressing of button 2](https://github.com/stevector/internet-button-playground/blob/315cb6d5e9ec59e1ecf33497a2a90b981b619b30/button/src/IbOmni.ino#L107), has a [Particle webhook](https://docs.particle.io/reference/device-cloud/webhooks/) connected to it. 
+The firmware  at `button/src/IbOmni.ino` publishes many events to the Particle Cloud. This event, [the pressing of button 2](https://github.com/stevector/internet-button-playground/blob/315cb6d5e9ec59e1ecf33497a2a90b981b619b30/button/src/IbOmni.ino#L107), has a [Particle webhook](https://docs.particle.io/reference/device-cloud/webhooks/) connected to it.
 
 ![Diagram 0](https://raw.githubusercontent.com/stevector/internet-button-playground/64ca909a44d291400613668117435c3545ed1c01/documentation/images/CI_diplay_diagram0.jpg)
 
@@ -75,7 +75,7 @@ The body of the POST contains the a pattern like `g,r,g,g,g,g,g,g,g,g,g,` to be 
 
 #### The Particle Cloud calls a function on the button
 
-The button firmare, stored in the `button` directory in this repo defines a custom function called `circleCi` which parse the string of comma-separated `r`s and `g`s.
+The function [`circleCi`](https://github.com/stevector/internet-button-playground/blob/bd152047d8685e69e63d6b8f1e573f1ed57d7f72/button/src/IbOmni.ino#L231) parses the string of comma-separated `r`s and `g`s.
 
 ![Diagram 5](https://raw.githubusercontent.com/stevector/internet-button-playground/64ca909a44d291400613668117435c3545ed1c01/documentation/images/CI_diplay_diagram5.jpg)
 
